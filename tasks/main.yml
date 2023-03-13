@@ -6,7 +6,7 @@
     state: present
   when: ansible_os_family == "Debian"
 
-- name: Install NFS kernel server
+- name: Install NFS utils
   ansible.builtin.package:
     name: nfs-utils
     state: present
