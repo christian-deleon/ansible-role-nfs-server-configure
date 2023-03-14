@@ -1,1 +1,1 @@
-/srv/dynamic *(rw,sync,no_subtree_check,no_root_squash,fsid=0)
+/srv/dynamic *(rw,no_root_squash)
