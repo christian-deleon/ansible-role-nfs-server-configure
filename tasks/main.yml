@@ -12,9 +12,9 @@
     state: present
   when: ansible_os_family == "RedHat"
 
-- name: Create NFS share directory
+- name: Create NFS dynamic directory
   ansible.builtin.file:
-    path: /nfs
+    path: /srv/dynamic
     state: directory
     owner: nobody
     group: nogroup
@@ -27,6 +27,9 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Export NFS shares
+  ansible.builtin.shell: exportfs -a
 
 - name: Restart NFS server
   ansible.builtin.service:
