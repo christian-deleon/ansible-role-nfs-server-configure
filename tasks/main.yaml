@@ -1,0 +1,28 @@
+---
+- name: Install NFS kernel server
+  ansible.builtin.package:
+    name: nfs-kernel-server
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install NFS utils
+  ansible.builtin.package:
+    name: nfs-utils
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Create NFS directory
+  ansible.builtin.file:
+    path: "{{ nfs_export_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Configure NFS exports
+  blockinfile:
+    path: /etc/exports
+    create: true
+    block: |
+      {{ nfs_export_dir }} {{ nfs_client }}({{ nfs_options }})
+  notify: Export NFS shares
