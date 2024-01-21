@@ -1,3 +1,8 @@
 ---
 - name: Export NFS shares
   ansible.builtin.shell: exportfs -a
+
+- name: Restart NFS server
+  ansible.builtin.service:
+    name: nfs-kernel-server
+    state: restarted
