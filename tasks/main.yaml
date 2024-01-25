@@ -3,12 +3,14 @@
   ansible.builtin.package:
     name: nfs-kernel-server
     state: present
+  become: true
   when: ansible_os_family == "Debian"
 
 - name: Install NFS utils
   ansible.builtin.package:
     name: nfs-utils
     state: present
+  become: true
   when: ansible_os_family == "RedHat"
 
 - name: Create NFS directory
@@ -18,6 +20,7 @@
     owner: "{{ nfs_owner }}"
     group: "{{ nfs_group }}"
     mode: "{{ nfs_mode }}"
+  become: true
 
 - name: Configure NFS exports
   blockinfile:
@@ -25,6 +28,7 @@
     create: true
     block: |
       {{ nfs_share }} {{ nfs_client }}({{ nfs_options }})
+  become: true
   notify:
     - Export NFS shares
     - Restart NFS server
